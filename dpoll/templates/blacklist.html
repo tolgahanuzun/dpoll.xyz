@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h4>Blacklist</h4>
+    <div class="row">
+      {% for member in blacklist %}
+        <div class="col-md-4">
+          <div class="panel panel-default widget">
+            <div class="panel-heading">
+              <img
+                  src="https://steemitimages.com/u/{{ member.user.username }}/avatar"
+                  class="avatar"
+                  style="margin-right: 12px;"
+                  alt=""/>
+              <h3 class="panel-title">
+                <a href="{% url 'profile' member.user.username %}">{{ member.user.username }}</a>
+            </div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
