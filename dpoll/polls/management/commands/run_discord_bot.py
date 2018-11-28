@@ -144,7 +144,8 @@ async def upvote(ctx, url: str, weight: int):
         await bot.say("You don't have required permissions to do that.")
         return
     # If the member is listed, is not voted.
-    blacklist = Blacklist.objects.filter(user=author, expires_at__gte=datetime.now())
+    blacklist = Blacklist.objects.filter(user__username=author, expires_at__gte=datetime.now()) 
+        or Blacklist.objects.filter(user__username=author, expires_at=None)
     if blaklist:
         await bot.say("You can't vote for a member of the Blacklist.")
         return
