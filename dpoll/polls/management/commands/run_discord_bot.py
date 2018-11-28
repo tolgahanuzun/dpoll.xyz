@@ -13,6 +13,7 @@ from django.core.management.base import BaseCommand
 from lightsteem.client import Client as LightsteemClient
 from lightsteem.datastructures import Operation
 from polls.models import Question
+from curation.models import Blacklist
 
 from .utils import get_comment_body
 
@@ -141,6 +142,11 @@ async def upvote(ctx, url: str, weight: int):
     # only members of 'team members' group can use the bot.
     if 'team members' not in [r.name for r in ctx.message.author.roles]:
         await bot.say("You don't have required permissions to do that.")
+        return
+    # If the member is listed, is not voted.
+    blacklist = Blacklist.objects.filter(user=author, expires_at__gte=datetime.now())
+    if blaklist:
+        await bot.say("You can't vote for a member of the Blacklist.")
         return
 
     try:
